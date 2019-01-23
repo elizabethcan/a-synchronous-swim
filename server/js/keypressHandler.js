@@ -1,5 +1,7 @@
 const _ = require('underscore');
 const keypress = require('keypress');
+const enqueue = require('./messageQueue').enqueue;
+const dequeue = require('./messageQueue').dequeue;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Utility Function ///////////////////////////////////////////////////////////
@@ -37,6 +39,7 @@ module.exports.initialize = () => {
     // check to see if the keypress itself is a valid message
     if (isValidMessage(key.name)) {
       console.log(`Message received: ${key.name}`);
+      enqueue(key.name);
       return; // don't do any more processing on this key
     }
     
@@ -67,3 +70,5 @@ if (process.stdin.setRawMode) {
   // configure stdin for raw mode, if possible
   process.stdin.setRawMode(true);
 }
+
+exports.validMessages = validMessages;
